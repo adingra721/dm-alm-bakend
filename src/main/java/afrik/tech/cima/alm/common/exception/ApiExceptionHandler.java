@@ -20,6 +20,12 @@ public class ApiExceptionHandler {
         return error(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI(), Map.of());
     }
 
+    @ExceptionHandler(AuthenticationFailedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    ApiError handleAuthentication(AuthenticationFailedException exception, HttpServletRequest request) {
+        return error(HttpStatus.UNAUTHORIZED, exception.getMessage(), request.getRequestURI(), Map.of());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ApiError handleValidation(MethodArgumentNotValidException exception, HttpServletRequest request) {
@@ -27,6 +33,12 @@ public class ApiExceptionHandler {
         exception.getBindingResult().getFieldErrors()
                 .forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
         return error(HttpStatus.BAD_REQUEST, "Donnees invalides", request.getRequestURI(), errors);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ApiError handleBadRequest(BadRequestException exception, HttpServletRequest request) {
+        return error(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI(), Map.of());
     }
 
     private ApiError error(HttpStatus status, String message, String path, Map<String, String> validationErrors) {

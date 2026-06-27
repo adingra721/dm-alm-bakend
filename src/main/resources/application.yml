@@ -5,7 +5,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/cima_alm
     username: postgres
     password: root
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:db/seed-data.sql
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     open-in-view: false
