@@ -9,8 +9,8 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
-COPY --from=build /target/cima-alm-0.0.1-SNAPSHOT.jar cima-alm.jar
+COPY --from=build /app/target/*.jar cima-alm.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "cima-alm.jar"]
